@@ -6,13 +6,32 @@
         xmlns:local="clr-namespace:TreeView"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="400">
-    
-    <Grid>
-        <ListBox BorderBrush="Black" x:Name="Listbox" Margin="5 5 5 120" ItemsSource="{Binding  ItemsList}" />
-        <StackPanel>
-            <Button x:Name="loadButton" Click="Load_Click" Width="100" Height="30" HorizontalAlignment="Left" Margin="5 320" Content="Load" BorderBrush="Black"/>
-        </StackPanel>
-        <TextBox TextChanged="Changed" MouseDoubleClick="Doub" MaxLength="30" x:Name="textBox" Height="30" Width="180" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 250 5 0" VerticalContentAlignment="Center" >Filter</TextBox>
-    </Grid>
+        Title="MainWindow" Height="400" Width="300">
+    <DockPanel x:Name="Layout"
+               Focusable="True">
+        <DockPanel Margin="5" DockPanel.Dock="Bottom">
+            <Button Command="{Binding LoadCommand}" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Load">
+            </Button>
+            <Grid Margin="2">
+                <TextBox x:Name="Searching" VerticalAlignment="Bottom" FontSize="13" Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+        </DockPanel>
+        <ListBox ItemsSource="{Binding Category}"
+                 DockPanel.Dock="Top"
+                 VirtualizingStackPanel.IsVirtualizing ="True"
+                 ScrollViewer.CanContentScroll="True"
+                 Background="Transparent"
+                 BorderThickness="0">
+            <DockPanel>
+                <TextBlock Text="{Binding Name}" DockPanel.Dock="Top"
+                                           FontSize="15"
+                                           Margin="5,2,0,2"/>
+                <ListBox ItemsSource="{Binding Items}" DockPanel.Dock="Top"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     SelectedValue="{Binding Path=DataContext.SelectedItem}">
+                </ListBox>
+           </DockPanel>
+     </ListBox>
+  </DockPanel>
 </Window>
