@@ -10,28 +10,66 @@
     <DockPanel x:Name="Layout"
                Focusable="True">
         <DockPanel Margin="5" DockPanel.Dock="Bottom">
-            <Button Command="{Binding LoadCommand}" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Load">
+            <Button Command="{Binding LoadCommand}" Width="70" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Load">
             </Button>
             <Grid Margin="2">
                 <TextBox x:Name="Searching" VerticalAlignment="Bottom" FontSize="13" Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
         </DockPanel>
-        <ListBox ItemsSource="{Binding Category}"
+        <ListBox ItemsSource="{Binding Categories}"
                  DockPanel.Dock="Top"
                  VirtualizingStackPanel.IsVirtualizing ="True"
                  ScrollViewer.CanContentScroll="True"
                  Background="Transparent"
                  BorderThickness="0">
-            <DockPanel>
-                <TextBlock Text="{Binding Name}" DockPanel.Dock="Top"
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <DockPanel>
+                                   <TextBlock Text="{Binding Name}" DockPanel.Dock="Top"
                                            FontSize="15"
                                            Margin="5,2,0,2"/>
-                <ListBox ItemsSource="{Binding Items}" DockPanel.Dock="Top"
+                                       <ListBox ItemsSource="{Binding Items}" DockPanel.Dock="Top"
                                      Background="Transparent"
                                      BorderThickness="0"
-                                     SelectedValue="{Binding Path=DataContext.SelectedItem}">
-                </ListBox>
-           </DockPanel>
-     </ListBox>
+                                     SelectedValue="{Binding Path=DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=ItemsControl, Mode=FindAncestor}}">
+                                        <ListBox.ItemContainerStyle>
+                                            <Style TargetType="ListBoxItem">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate>
+
+                                                            <Grid  Visibility="{Binding IsShown, Converter={Converters:VisibilityConverter True=Visible,False=Collapsed}}">
+                                                                <Border x:Name="PART_Border" Visi BorderThickness="3,1,1,1" BorderBrush="Black">
+
+
+                                                                    <TextBlock Text="{Binding StringFormat=•    {0},Path=Name}"
+                                                                 Margin="30,2,0,2"  />
+                                                                </Border>
+                                                            </Grid>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property= "IsMouseOver" Value="true">
+                                                                    <Setter Property="FontWeight" Value="Bold"/>
+                                                                    <Setter TargetName="PART_Border" Property="Background" Value="LightGreen"/>
+                                                                </Trigger>
+                                                                <Trigger Property= "ListBoxItem.IsSelected" Value="true">
+                                                                    <Setter TargetName="PART_Border" Property="Background" Value="DarkGreen"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ListBox.ItemContainerStyle>
+                                    </ListBox>
+                                </DockPanel>
+                          </ControlTemplate>
+                        </Setter.Value>
+                      </Setter>
+                    </Style>
+            </ListBox.ItemContainerStyle>
+        </ListBox>
   </DockPanel>
 </Window>

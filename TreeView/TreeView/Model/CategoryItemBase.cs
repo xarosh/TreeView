@@ -3,7 +3,7 @@ using TreeView.Abstractions;
 
 namespace TreeView.Model
 {
-    public class CategoryItemBase : PropertyChangedClass, ICategoryItem,IFiltering
+    public class CategoryItemBase : PropertyChangedClass, ICategoryItem, IFiltering
     {
         public string Name { get; set; }
         public bool IsShown { get; set; } = true;

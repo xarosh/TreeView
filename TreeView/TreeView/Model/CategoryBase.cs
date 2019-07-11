@@ -1,14 +1,11 @@
-﻿using TreeView.ViewModels;
-using TreeView.Abstractions;
-
+﻿using TreeView.Abstractions;
 using TreeView.Helpers.MVVM;
-using System.ComponentModel;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace TreeView.Model
 {
-    public abstract class CategoryBase: PropertyChangedClass,ICategory, IFiltering
+    public class CategoryBase : PropertyChangedClass, ICategory, IFiltering
     {
         public IList<ICategoryItem> Items { get ; set ; }
         public string Name { get ; set; }
