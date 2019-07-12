@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using TreeView.Helpers.MVVM;
-using System.Windows.Input;
 using System.Collections.ObjectModel;
-using TreeView.Abstractions;
-using TreeView.Model;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Input;
+using TreeView.Abstractions;
+using TreeView.Helpers.MVVM;
+using TreeView.Model;
 
 namespace TreeView.ViewModels
 {
@@ -13,17 +16,24 @@ namespace TreeView.ViewModels
     public class ViewModel : PropertyChangedClass
     {
         private readonly Random rnd;
-
+        private string _Filter;
         public string Filter
         {
-            get;
-            set;
-        } = string.Empty;
+            get
+            {
+                return _Filter;
+            }
+            set
+            {
+                SetValue(ref _Filter, value);
+            }
+        }
 
         public ViewModel()
         {
             rnd = new Random();
             LoadCommand = new RelayCommand(Load);
+         //   DeleteCommand = new RelayCommand(Delete);
             Categories = new ObservableCollection<ICategory>();
             PropertyChanged += ViewModel_PropertyChanged;
         }
@@ -36,7 +46,7 @@ namespace TreeView.ViewModels
         public ICategoryItem SelectedItem { get; set; }
         public ICommand LoadCommand { get; set; }
         public IList<ICategory> Categories { get; set; }
-      //  public ICategory category { get; set; }
+       // public ICommand DeleteCommand { get; set; }
         private void Load()
         {
             var startPosition = Categories.Count == 0 ? 0 : Categories.Count;
@@ -63,7 +73,66 @@ namespace TreeView.ViewModels
                 Categories.Add(category);
             }
         }
+        private ObservableCollection<Item> _Items;
+        private Item SelectedItems;
+        private ApplicationContext db;
+        private RelayCommand deleteCommand;
 
+        private ObservableCollection<Item> Items
+        {
+            get
+            {
+                return _Items;
+            }
+            set
+            {
+                SetValue(ref _Items, value);
+            }
+        }
+        public RelayCommand DeleteCommand
+        {
+            get
+            {
+
+                return DeleteCommand ??
+                       (deleteCommand = new RelayCommand((selectedItem) =>
+                       {
+                           MessageBoxResult result = MessageBox.Show("Вы действительно желаете удалить элемент?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                           if (SelectedItems == null || result == MessageBoxResult.No) return;
+                       Item item = SelectedItems as Item;
+                           db.Items.Remove(item);
+                           OnPropertyChanged("HasAuto");
+                       }));
+            }
+        }
+        private void Delete()
+        {
+           
+        }
+       // public ICommand DeleteCommandd => new RelayCommand(o => Delete((Collection<object>)o));
+
+        private void Delete(Collection<object> o)
+        {
+            List<Item> list = o.Cast<Item>().ToList();
+            list.ForEach(item => _Items.Remove(item));
+        }
+
+        private class ApplicationContext
+        {
+        }
+    }
+
+    class Item : INotifyPropertyChanged
+    {
+  
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public void OnPropertyChanged([CallerMemberName]string prop = "")
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(prop));
+        }
     }
 }
 
