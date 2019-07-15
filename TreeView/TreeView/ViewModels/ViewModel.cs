@@ -5,6 +5,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using TreeView.Abstractions;
 using TreeView.Helpers.MVVM;
@@ -15,6 +16,9 @@ namespace TreeView.ViewModels
 
     public class ViewModel : PropertyChangedClass
     {
+
+        ApplicationContext db;
+        RelayCommand deleteCommand;
         private readonly Random rnd;
         private string _Filter;
         public string Filter
@@ -31,9 +35,10 @@ namespace TreeView.ViewModels
 
         public ViewModel()
         {
+            db = new ApplicationContext();
             rnd = new Random();
             LoadCommand = new RelayCommand(Load);
-         //   DeleteCommand = new RelayCommand(Delete);
+            //DeleteCommand = new RelayCommand(Delete);
             Categories = new ObservableCollection<ICategory>();
             PropertyChanged += ViewModel_PropertyChanged;
         }
@@ -43,7 +48,7 @@ namespace TreeView.ViewModels
                 foreach (var category in Categories)
                     (category as IFiltering).Filter(Filter);
         }
-        public ICategoryItem SelectedItem { get; set; }
+
         public ICommand LoadCommand { get; set; }
         public IList<ICategory> Categories { get; set; }
        // public ICommand DeleteCommand { get; set; }
@@ -73,66 +78,36 @@ namespace TreeView.ViewModels
                 Categories.Add(category);
             }
         }
-        private ObservableCollection<Item> _Items;
-        private Item SelectedItems;
-        private ApplicationContext db;
-        private RelayCommand deleteCommand;
-
-        private ObservableCollection<Item> Items
-        {
-            get
-            {
-                return _Items;
-            }
-            set
-            {
-                SetValue(ref _Items, value);
-            }
-        }
         public RelayCommand DeleteCommand
         {
             get
             {
-
-                return DeleteCommand ??
-                       (deleteCommand = new RelayCommand((selectedItem) =>
-                       {
-                           MessageBoxResult result = MessageBox.Show("Вы действительно желаете удалить элемент?", "Удаление", MessageBoxButton.YesNo, MessageBoxImage.Question);
-                           if (SelectedItems == null || result == MessageBoxResult.No) return;
-                       Item item = SelectedItems as Item;
-                           db.Items.Remove(item);
-                           OnPropertyChanged("HasAuto");
-                       }));
+                return deleteCommand ??
+                    (deleteCommand = new RelayCommand((selectedItem) =>
+                    {
+                        if (selectedItem == null) return;
+                        Item item = selectedItem as Item;
+                        db.Items.Remove(phone);
+                        db.SaveChanges();
+                    }));
             }
-        }
-        private void Delete()
-        {
-           
-        }
-       // public ICommand DeleteCommandd => new RelayCommand(o => Delete((Collection<object>)o));
 
-        private void Delete(Collection<object> o)
+
+
+        }
+        private void Delete_Click(object sender, RoutedEventArgs e)
         {
-            List<Item> list = o.Cast<Item>().ToList();
-            list.ForEach(item => _Items.Remove(item));
+            // если ни одного объекта не выделено, выходим
+            if (itemList.SelectedItem == null) return;
+            // получаем выделенный объект
+            Item phone = itemList.SelectedItem as Item;
+            db.Items.Remove(phone);
+            db.SaveChanges();
         }
 
-        private class ApplicationContext
-        {
-        }
+
+
     }
 
-    class Item : INotifyPropertyChanged
-    {
-  
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public void OnPropertyChanged([CallerMemberName]string prop = "")
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(prop));
-        }
-    }
-}
 

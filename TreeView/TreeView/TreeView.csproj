@@ -60,6 +60,7 @@
     <Compile Include="Abstractions\ICategory.cs" />
     <Compile Include="Abstractions\ICategoryItem.cs" />
     <Compile Include="Abstractions\IFiltering.cs" />
+    <Compile Include="ApplicationContext.cs" />
     <Compile Include="Bootstrapping\Bootstrap.cs" />
     <Compile Include="Bootstrapping\BootstrapParameters.cs" />
     <Compile Include="Helpers\Converters\Converter.cs" />

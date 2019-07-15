@@ -15,7 +15,7 @@
                Focusable="True">
         <DockPanel Margin="5" DockPanel.Dock="Bottom">
             <Button Command="{Binding LoadCommand}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Load"/>
-            <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=ListBox}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Delete"/>
+            <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=itemList}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Delete"/>
 
             <Grid Margin="2">
                 <TextBox x:Name="Searching" VerticalAlignment="Bottom" FontSize="13" Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"/>
@@ -38,7 +38,7 @@
                                    <TextBlock Text="{Binding Name}" DockPanel.Dock="Top"
                                            FontSize="15"
                                            Margin="5,2,0,2"/>
-                                       <ListBox ItemsSource="{Binding Items}" DockPanel.Dock="Top"
+                                    <ListBox x:Name="itemList" ItemsSource="{Binding Items}" DockPanel.Dock="Top"
                                                 Background="Transparent"
                                                 BorderThickness="0"
                                                 ScrollViewer.CanContentScroll="True"

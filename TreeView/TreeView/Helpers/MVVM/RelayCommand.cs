@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace TreeView.Helpers.MVVM
@@ -34,6 +35,8 @@ namespace TreeView.Helpers.MVVM
 
     public class RelayCommand : RelayCommand<object>
     {
+        private Action<Collection<object>> delete;
+
         public RelayCommand(Action<object> execute, Func<object, bool> canExecute) : base(execute, canExecute) { }
 
         public RelayCommand(Action execute) : base(p => execute()) { }
@@ -41,5 +44,10 @@ namespace TreeView.Helpers.MVVM
 
         public RelayCommand(Action<object> execute) : base(execute) { }
         public RelayCommand(Action<object> execute, Func<bool> canExecute) : base(execute, canExecute) { }
+
+        public RelayCommand(Action<Collection<object>> delete)
+        {
+            this.delete = delete;
+        }
     }
 }

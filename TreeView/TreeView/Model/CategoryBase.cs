@@ -2,11 +2,14 @@
 using TreeView.Helpers.MVVM;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 namespace TreeView.Model
 {
     public class CategoryBase : PropertyChangedClass, ICategory, IFiltering
     {
+       
+
         private IList<ICategoryItem> _Items;
         public IList<ICategoryItem> Items
         {
@@ -42,7 +45,20 @@ namespace TreeView.Model
             {
                 SetValue(ref _IsShown, value);
             }
-        } 
+        }
+        public IList<ICategoryItem> _SelectedItems;
+        public IList<ICategoryItem> SelectedItems
+        {
+            get
+            {
+                return _SelectedItems;
+            }
+            set
+            {
+                SetValue(ref _SelectedItems, value);
+                OnPropertyChanged("SelectedItems");
+            }
+        }
 
 
         public CategoryBase()
