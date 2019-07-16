@@ -15,7 +15,7 @@
                Focusable="True">
         <DockPanel Margin="5" DockPanel.Dock="Bottom">
             <Button Command="{Binding LoadCommand}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Load"/>
-            <Button Command="{Binding DeleteCommand}" CommandParameter="{Binding SelectedItems, ElementName=itemList}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Delete"/>
+            <Button Command="{Binding RemoveCommand}" CommandParameter="{Binding SelectedItems, ElementName=itemList}" Width="60" Margin="2" HorizontalAlignment="Left" VerticalAlignment="Bottom" Content="Delete"/>
 
             <Grid Margin="2">
                 <TextBox x:Name="Searching" VerticalAlignment="Bottom" FontSize="13" Text="{Binding Filter,UpdateSourceTrigger=PropertyChanged}"/>
@@ -44,7 +44,7 @@
                                                 ScrollViewer.CanContentScroll="True"
                                                 SelectionMode="Multiple"
                                                 SelectedItem="{Binding SelectedItems}"
-                                                SelectedValue="{Binding Path=DataContext.SelectedItem, RelativeSource={RelativeSource AncestorType=ItemsControl, Mode=FindAncestor}}">
+                                                SelectedValue="{Binding Path=DataContext.SelectedItems, RelativeSource={RelativeSource AncestorType=ItemsControl, Mode=FindAncestor}}">
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="ListBoxItem">
                                                 <Setter Property="Template">

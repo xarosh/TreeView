@@ -19,12 +19,8 @@ namespace TreeView.Helpers.Converters
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return this;
-            //if (_converter == null)
-            //    _converter = new T();
-           // return _converter;
-        }
 
-       // private static T _converter = null;
+        }
 
     }
 }

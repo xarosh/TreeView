@@ -1,10 +1,14 @@
 ﻿using TreeView.Helpers.MVVM;
 using TreeView.Abstractions;
+using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace TreeView.Model
 {
     public class CategoryItemBase : PropertyChangedClass, ICategoryItem, IFiltering
     {
+
+        
         private string _Name;
         public string Name
         {
@@ -29,7 +33,9 @@ namespace TreeView.Model
                 SetValue(ref _IsShown, value);
             }
         }
-       
+
+
+
         public void Filter (string query)
         {
             if (string.IsNullOrEmpty(query))

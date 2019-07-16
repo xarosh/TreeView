@@ -13,14 +13,42 @@ using TreeView.Model;
 
 namespace TreeView.ViewModels
 {
+    public class Item:PropertyChangedClass
+    {
+
+       
+        private string _Name;
+        public string Name
+        {
+            get
+            {
+                return _Name;
+            }
+            set
+            {
+                SetValue(ref _Name, value);
+            }
+        }
+    }
 
     public class ViewModel : PropertyChangedClass
     {
-
-        ApplicationContext db;
-        RelayCommand deleteCommand;
+       
         private readonly Random rnd;
         private string _Filter;
+
+        private ObservableCollection<Item> _Items;
+        public ObservableCollection<Item> Items
+        {
+            get
+            {
+                return _Items;
+            }
+            set
+            {
+                SetValue(ref _Items, value);
+            }
+        }
         public string Filter
         {
             get
@@ -35,7 +63,8 @@ namespace TreeView.ViewModels
 
         public ViewModel()
         {
-            db = new ApplicationContext();
+
+            Items = new ObservableCollection<Item>();
             rnd = new Random();
             LoadCommand = new RelayCommand(Load);
             //DeleteCommand = new RelayCommand(Delete);
@@ -51,7 +80,37 @@ namespace TreeView.ViewModels
 
         public ICommand LoadCommand { get; set; }
         public IList<ICategory> Categories { get; set; }
-       // public ICommand DeleteCommand { get; set; }
+
+        private Item selectedItems;
+        public Item SelectedItems
+        {
+            get
+            {
+                return selectedItems;
+            }
+            set
+            {
+                SetValue(ref selectedItems, value);
+                OnPropertyChanged("SelectedItems");
+            }
+        }
+
+        private RelayCommand removeCommand;
+        public RelayCommand RemoveCommand
+        {
+            get
+            {
+                return removeCommand ??
+                    (removeCommand = new RelayCommand(obj =>
+                    {
+                        Item item = obj as Item;
+                        if (item != null)
+                        {
+                            Items.Remove(item);
+                        }
+                    },(obj) => Items.Count > 0));
+            }
+        }
         private void Load()
         {
             var startPosition = Categories.Count == 0 ? 0 : Categories.Count;
@@ -78,36 +137,11 @@ namespace TreeView.ViewModels
                 Categories.Add(category);
             }
         }
-        public RelayCommand DeleteCommand
-        {
-            get
-            {
-                return deleteCommand ??
-                    (deleteCommand = new RelayCommand((selectedItem) =>
-                    {
-                        if (selectedItem == null) return;
-                        Item item = selectedItem as Item;
-                        db.Items.Remove(phone);
-                        db.SaveChanges();
-                    }));
-            }
-
-
-
-        }
-        private void Delete_Click(object sender, RoutedEventArgs e)
-        {
-            // если ни одного объекта не выделено, выходим
-            if (itemList.SelectedItem == null) return;
-            // получаем выделенный объект
-            Item phone = itemList.SelectedItem as Item;
-            db.Items.Remove(phone);
-            db.SaveChanges();
-        }
-
+       
 
 
     }
+}
 
 
 
