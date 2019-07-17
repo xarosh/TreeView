@@ -22,6 +22,39 @@ namespace TreeView.Model
                 SetValue(ref _Items, value);
             }
         }
+
+        private RelayCommand removeCommand;
+        public RelayCommand RemoveCommand
+        {
+            get
+            {
+                return removeCommand ??
+                    (removeCommand = new RelayCommand(obj =>
+                    {
+                        CategoryItemBase item = obj as CategoryItemBase;
+                        if (item != null)
+                        {
+                            Items.Remove(item);
+                        }
+                    }, (obj) => Items.Count > 0));
+            }
+        }
+        public IList<ICategoryItem> _SelectedCategoryItem;
+        public IList<ICategoryItem> SelectedCategoryItem
+        {
+            get
+            {
+                return _SelectedCategoryItem;
+            }
+            set
+            {
+                SetValue(ref _SelectedCategoryItem, value);
+                OnPropertyChanged("SelectedItems");
+            }
+        }
+
+
+
         private string _Name;
         public string Name
         {
@@ -46,19 +79,7 @@ namespace TreeView.Model
                 SetValue(ref _IsShown, value);
             }
         }
-        public IList<ICategoryItem> _SelectedItems;
-        public IList<ICategoryItem> SelectedItems
-        {
-            get
-            {
-                return _SelectedItems;
-            }
-            set
-            {
-                SetValue(ref _SelectedItems, value);
-                OnPropertyChanged("SelectedItems");
-            }
-        }
+       
 
 
         public CategoryBase()
