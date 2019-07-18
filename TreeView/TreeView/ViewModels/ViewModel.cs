@@ -51,19 +51,7 @@ namespace TreeView.ViewModels
 
         public ICommand LoadCommand { get; set; }
         public IList<ICategory> Categories { get; set; }
-
-        private CategoryBase _SelectedCategoryItem;
-        public CategoryBase SelectedCategoryItem
-        {
-            get
-            {
-                return _SelectedCategoryItem;
-            }
-            set
-            {
-                SetValue(ref _SelectedCategoryItem, value);
-            }
-        }
+        public ICategoryItem SelectedCategoryItem { get; set; }
 
         private void Load()
         {

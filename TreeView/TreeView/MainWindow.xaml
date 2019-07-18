@@ -43,8 +43,7 @@
                                                 BorderThickness="0"
                                                 ScrollViewer.CanContentScroll="True"
                                                 SelectionMode="Multiple"
-                                                SelectedItem="{Binding SelectedCategoryItem}"
-                                                SelectedValue="{Binding Path=DataContext.SelectedCategoryItem, RelativeSource={RelativeSource AncestorType=ItemsControl, Mode=FindAncestor}}">
+                                                SelectedItem="{Binding Path=DataContext.SelectedCategoryItem,RelativeSource={RelativeSource AncestorType=ItemsControl,Mode=FindAncestor}}">
                                         <ListBox.ItemContainerStyle>
                                             <Style TargetType="ListBoxItem">
                                                 <Setter Property="Template">
@@ -55,7 +54,7 @@
                                                                     <TextBlock Text="{Binding StringFormat=•    {0},Path=Name}"
                                                                  Margin="30,2,0,2" />
                                                                 </Border>
-                                                                <Button Command="{Binding Path=RemoveCommand, RelativeSource={RelativeSource Mode=Self }}" CommandParameter="{Binding SelectedCategoryItem, ElementName=itemList}" Width="20" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Content="X"/>
+                                                                <Button x:Name="deleteButton" Command="{Binding Path=DataContext.RemoveCommand, RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=ItemsControl}}" CommandParameter="{Binding SelectedCategoryItem}" Width="20" Margin="2" HorizontalAlignment="Right" VerticalAlignment="Center" Content="X"/>
                                                             </Grid>
                                                             <ControlTemplate.Triggers>
                                                                 <Trigger Property= "IsMouseOver" Value="true">

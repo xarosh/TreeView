@@ -6,7 +6,7 @@ using System.Windows.Controls;
 
 namespace TreeView.Model
 {
-    public class CategoryBase : PropertyChangedClass, ICategory, IFiltering
+    public class CategoryBase : PropertyChangedClass, ICategory, IFiltering,ICategoryItem
     {
        
 
@@ -39,7 +39,8 @@ namespace TreeView.Model
                     }, (obj) => Items.Count > 0));
             }
         }
-        public IList<ICategoryItem> _SelectedCategoryItem;
+
+        private IList<ICategoryItem> _SelectedCategoryItem;
         public IList<ICategoryItem> SelectedCategoryItem
         {
             get
@@ -49,7 +50,6 @@ namespace TreeView.Model
             set
             {
                 SetValue(ref _SelectedCategoryItem, value);
-                OnPropertyChanged("SelectedItems");
             }
         }
 
