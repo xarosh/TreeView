@@ -34,19 +34,6 @@ namespace TreeView.Model
             }
         }
 
-        private IList<ICategoryItem> _SelectedCategoryItem;
-        public IList<ICategoryItem> SelectedCategoryItem
-        {
-            get
-            {
-                return _SelectedCategoryItem;
-            }
-            set
-            {
-                SetValue(ref _SelectedCategoryItem, value);
-            }
-        }
-
 
         public void Filter (string query)
         {

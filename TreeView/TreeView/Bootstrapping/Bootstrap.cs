@@ -18,5 +18,4 @@ namespace TreeView.Bootstrapping
             return window;
         }
     }
-
 }

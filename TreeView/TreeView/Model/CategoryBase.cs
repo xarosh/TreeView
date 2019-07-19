@@ -8,8 +8,7 @@ namespace TreeView.Model
 {
     public class CategoryBase : PropertyChangedClass, ICategory, IFiltering,ICategoryItem
     {
-       
-
+        
         private IList<ICategoryItem> _Items;
         public IList<ICategoryItem> Items
         {
@@ -36,12 +35,12 @@ namespace TreeView.Model
                         {
                             Items.Remove(item);
                         }
-                    }, (obj) => Items.Count > 0));
+                    }));
             }
         }
 
-        private IList<ICategoryItem> _SelectedCategoryItem;
-        public IList<ICategoryItem> SelectedCategoryItem
+        private ICategoryItem _SelectedCategoryItem;
+        public ICategoryItem SelectedCategoryItem
         {
             get
             {
@@ -49,11 +48,9 @@ namespace TreeView.Model
             }
             set
             {
-                SetValue(ref _SelectedCategoryItem, value);
+                SetValue(ref _SelectedCategoryItem, value); 
             }
         }
-
-
 
         private string _Name;
         public string Name
@@ -80,8 +77,6 @@ namespace TreeView.Model
             }
         }
        
-
-
         public CategoryBase()
         {
             Items = new ObservableCollection<ICategoryItem>();

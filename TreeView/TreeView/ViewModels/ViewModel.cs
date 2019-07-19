@@ -38,7 +38,6 @@ namespace TreeView.ViewModels
         {
             rnd = new Random();
             LoadCommand = new RelayCommand(Load);
-            //DeleteCommand = new RelayCommand(Delete);
             Categories = new ObservableCollection<ICategory>();
             PropertyChanged += ViewModel_PropertyChanged;
         }
